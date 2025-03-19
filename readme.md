@@ -20,7 +20,7 @@
 - Frontend: React, Next.js, Tailwind CSS, Next UI
 - Backend: Node.js, Express, REST APIs
 - Database: MongoDB
-- Others: Docker, Google OAuth, YouTube API, Cron Jobs
+- Others: Docker, Google OAuth, YouTube API, Cron Jobs, Recoil
 
 ## 🚀 Features
 
@@ -109,6 +109,66 @@ node dist/index.js
 cd frontend
 npm install
 npm run dev
+```
+
+## api's
+
+- /contests/upcomming_contest (GET)
+- /contests/past_contest (GET)
+- /contests/upload_solution (POST)
+
+- /user/profile (GET)
+- /user/bookmarks (GET)
+- /user/bookmarks (POST)
+
+- /auth/google (POST)
+
+## Project Structure
+
+```pgsql
+📦 Project Root
+├── 📂 backend
+│   ├── 📂 src
+│   │   ├── 📂 controllers
+│   │   ├── 📂 cron
+│   │   ├── 📂 middleware
+│   │   ├── 📂 models
+│   │   ├── 📂 routers
+│   │   ├── 📂 types
+│   │   ├── index.ts
+│   │   ├── .env
+│   │   └── docker-compose.yml
+│
+├── 📂 frontend
+│   ├── 📂 public
+│   ├── 📂 src
+│   │   ├── 📂 assets
+│   │   ├── 📂 components
+│   │   │   ├── 📂 common
+│   │   │   ├── 📂 providers
+│   │   │   │   ├── authprovider.tsx
+│   │   │   │   └── recoilprovider.tsx
+│   │   │   ├── 📂 ui
+│   │   ├── 📂 hooks
+│   │   │   ├── useMyContests.tsx
+│   │   │   ├── usePastContests.tsx
+│   │   │   └── useUpcomingContests.tsx
+│   │   ├── 📂 lib
+│   │   ├── 📂 pages
+│   │   │   ├── Bookmarks.tsx
+│   │   │   ├── Home.tsx
+│   │   │   ├── Profile.tsx
+│   │   ├── 📂 store
+│   │   │   └── user_atom.ts
+│   │   ├── 📂 types
+│   │   │   └── contest_type.tsx
+│   │   ├── 📂 utils
+│   │   │   ├── format_time.tsx
+│   │   │   └── platform_color.tsx
+│   │   ├── app.tsx
+│   │   ├── index.css
+│   │   └── main.tsx
+│   └── .gitignore
 ```
 
 ### ⭐️ If you like this project, don't forget to give it a star!
