@@ -111,17 +111,65 @@ npm install
 npm run dev
 ```
 
-## api's
+# API Endpoints and System Overview
 
-- /contests/upcomming_contest (GET)
-- /contests/past_contest (GET)
-- /contests/upload_solution (POST)
+This document outlines the API endpoints and system architecture for the contest tracking and management application.
 
-- /user/profile (GET)
-- /user/bookmarks (GET)
-- /user/bookmarks (POST)
+## API Endpoints
 
-- /auth/google (POST)
+### Contest Management
+
+* **`/contests/upcoming_contest` (GET)**
+    * Fetches upcoming contests from CodeChef, LeetCode, and Codeforces.
+    * Response: JSON array of contest objects.
+* **`/contests/past_contest` (GET)**
+    * Fetches past contests from CodeChef, LeetCode, and Codeforces.
+    * Response: JSON array of contest objects.
+* **`/contests/upload_solution` (POST)**
+    * Allows administrators to manually upload contest solutions.
+    * Request: JSON payload containing solution details.
+    * Authentication: Requires administrator privileges.
+
+### User Management
+
+* **`/user/profile` (GET)**
+    * Retrieves the current user's profile information.
+    * Authentication: Requires user authentication.
+    * Response: JSON object containing user profile data.
+* **`/user/bookmarks` (GET)**
+    * Retrieves all bookmarked contests for the logged-in user.
+    * Authentication: Requires user authentication.
+    * Response: JSON array of bookmarked contest objects.
+* **`/user/bookmarks` (POST)**
+    * Adds a selected contest to the user's bookmarks.
+    * Request: JSON payload containing the contest identifier.
+    * Authentication: Requires user authentication.
+
+### Authentication
+
+* **`/auth/google` (POST)**
+    * Handles Google OAuth authentication.
+    * Request: Google OAuth token.
+    * Response: User authentication token.
+
+## Background Processes
+
+### Cron Jobs
+
+* **Daily Contest Update (8:00 AM)**
+    * Scheduled cron job that runs daily at 8:00 AM.
+    * Fetches and updates contest information from CodeChef, LeetCode, and Codeforces.
+    * Can be configured to run hourly.
+* **Testing Cron Job (Instant)**
+    * On demand execution of the contest data fetching logic, for testing purposes.
+
+## System Architecture
+
+* The system utilizes a backend API to manage contest data, user profiles, and authentication.
+* Contest data is fetched from external platforms (CodeChef, LeetCode, Codeforces) using web scraping or official APIs (if available).
+* User authentication is handled via Google OAuth.
+* A database stores contest information, user profiles, and bookmarks.
+* Cron jobs automate the process of updating contest data.
 
 ## Project Structure
 
