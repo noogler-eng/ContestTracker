@@ -2,6 +2,8 @@
 
 - Check out the demo video here 👉 [Project Demo - Loom](https://www.loom.com/share/291596e8b92e4fd297c14f31240fd02e?sid=8f333bf6-ffe1-4644-ba10-4545e6ea9566)
 
+  
+NOTE: sometime it will take 1 or 2 min to start as it is a free service from render --- --- -- --- 
 Backend Deployment Link: [https://assignment-qh3o.onrender.com](https://assignment-qh3o.onrender.com)
 
 Frontend Deployment Link: [https://assignment-psi-ivory.vercel.app/](https://assignment-psi-ivory.vercel.app/)
