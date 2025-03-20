@@ -2,6 +2,10 @@
 
 - Check out the demo video here 👉 [Project Demo - Loom](https://www.loom.com/share/291596e8b92e4fd297c14f31240fd02e?sid=8f333bf6-ffe1-4644-ba10-4545e6ea9566)
 
+Backend Deployment Link: [https://assignment-qh3o.onrender.com](https://assignment-qh3o.onrender.com)
+
+Frontend Deployment Link: [https://assignment-psi-ivory.vercel.app/](https://assignment-psi-ivory.vercel.app/)
+
 ## 📖 Description
 
 - This project is a contest tracker web application that helps users stay updated with coding contests from platforms like Codeforces, CodeChef, and LeetCode.
