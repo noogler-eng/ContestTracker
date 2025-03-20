@@ -11,7 +11,7 @@ export default function useUpcommingContests() {
     setError(null);
     try {
       const response = await axios.get(
-        "http://localhost:4000/contests/upcomming_contest"
+        `${import.meta.env.VITE_PROD_BACKEND_URL}/contests/upcomming_contest`
       );
       setUpcomingContests(response.data.upcomingContests);
     } catch (err: any) {

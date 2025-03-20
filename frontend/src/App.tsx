@@ -13,7 +13,7 @@ const fetchCurrentUser = async () => {
     const token = localStorage.getItem("token");
     if (!token) return null;
 
-    const response = await axios.get("http://localhost:4000/user/profile", {
+    const response = await axios.get(`${import.meta.env.VITE_PROD_BACKEND_URL}/user/profile`, {
       headers: {
         Authorization: token,
       },

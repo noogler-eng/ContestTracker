@@ -15,7 +15,7 @@ export default function usePastContests({
     setError(null);
     try {
       const response = await axios.get(
-        `http://localhost:4000/contests/past_contest?page=${pageNumber}`
+        `${import.meta.env.VITE_PROD_BACKEND_URL}/contests/past_contest?page=${pageNumber}`
       );
       console.log("response incomming", response.data.pastContests);
       setPastContests(response.data.pastContests);
