@@ -75,6 +75,13 @@ Frontend Deployment Link: [https://assignment-psi-ivory.vercel.app/](https://ass
 
  <img width="1440" alt="Cron Job Screenshot" src="https://github.com/user-attachments/assets/e3fd6f65-8d62-432a-a1f3-d2b01a85b9ed" />
 
+### Table view 
+ <img width="462" alt="Screenshot 2025-03-20 at 2 06 09 PM" src="https://github.com/user-attachments/assets/30c1564c-00bc-44e6-850a-6d4d99e5ae61" />
+ 
+### Mobile view
+<img width="323" alt="Screenshot 2025-03-20 at 2 06 55 PM" src="https://github.com/user-attachments/assets/b5a75df9-1f13-4f23-8d23-faa96405970c" />
+
+
 ### 🧠 Future Improvements
 
 - Add contest reminders/notifications
