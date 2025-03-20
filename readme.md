@@ -75,7 +75,7 @@ Frontend Deployment Link: [https://assignment-psi-ivory.vercel.app/](https://ass
 
  <img width="1440" alt="Cron Job Screenshot" src="https://github.com/user-attachments/assets/e3fd6f65-8d62-432a-a1f3-d2b01a85b9ed" />
 
-### Table view 
+### Tablet view 
  <img width="462" alt="Screenshot 2025-03-20 at 2 06 09 PM" src="https://github.com/user-attachments/assets/30c1564c-00bc-44e6-850a-6d4d99e5ae61" />
  
 ### Mobile view
