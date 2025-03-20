@@ -48,7 +48,7 @@ export default function Navbar() {
               onSuccess={async (credentialResponse) => {
                 console.log(credentialResponse);
                 await axios.post(
-                  "http://localhost:4000/auth/google",
+                  `${import.meta.env.VITE_PROD_BACKEND_URL}/auth/google`,
                   {},
                   {
                     headers: {
