@@ -28,9 +28,6 @@ export default function HomePage() {
     error: paErr,
   } = usePastContests({ pageNumber: page });
 
-  console.log(page);
-
-  // Reset page when filters or tab changes
   useEffect(() => {
     setPage(0);
   }, [selectedFilters, activeTab]);
@@ -43,10 +40,9 @@ export default function HomePage() {
     );
   };
 
-  // Filtering logic for multi-select
   const filterContests = (contests: ContestType[] | null | undefined) => {
     if (!contests) return [];
-    if (selectedFilters.length === 0) return contests; // If nothing selected, show all
+    if (selectedFilters.length === 0) return contests;
     return contests.filter((contest) => selectedFilters.includes(contest.type));
   };
 
@@ -70,7 +66,7 @@ export default function HomePage() {
           </h1>
         </div>
 
-        {/* Multi-select Filter Section */}
+        {/* Multi-select Filter */}
         <div className="mb-8 bg-[#1A1A1A] p-4 rounded-lg border border-[#3E3E3E]">
           <div className="flex items-center gap-2 mb-3">
             <Filter className="w-5 h-5 text-[#FFA116]" />
@@ -128,7 +124,7 @@ export default function HomePage() {
             {upLoading ? (
               <LoadingSkeleton />
             ) : filteredUpcoming.length > 0 ? (
-              <div className="grid gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {filteredUpcoming.map((contest: ContestType) => (
                   <ContestCard key={contest.id} contest={contest} />
                 ))}
@@ -143,7 +139,7 @@ export default function HomePage() {
             {paLoading ? (
               <LoadingSkeleton />
             ) : filteredPast.length > 0 ? (
-              <div className="grid gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {filteredPast.map((contest: ContestType) => (
                   <ContestCard key={contest.id} contest={contest} />
                 ))}
@@ -152,28 +148,44 @@ export default function HomePage() {
               <NoData message="No past contests found." />
             )}
 
-            {/* Pagination Controls */}
-            <div className="flex justify-center mt-6 gap-2">
+            {/* Pagination */}
+            <div className="flex justify-center mt-8 gap-4">
               <Button
                 type="button"
                 onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
                 disabled={page === 0 || paLoading}
                 variant="outline"
                 size="sm"
-                className="border-[#3E3E3E] text-gray-300 hover:bg-[#2A2A2A] hover:text-white disabled:opacity-50"
+                className="border border-[#3E3E3E] bg-[#1A1A1A] text-gray-300 
+               hover:bg-[#2A2A2A] hover:text-white 
+               disabled:opacity-50 disabled:cursor-not-allowed 
+               rounded-lg px-6 py-3 transition-all duration-300"
               >
                 Previous
               </Button>
-              <span className="flex items-center justify-center px-4 py-2 bg-[#1A1A1A] border border-[#3E3E3E] rounded-md text-sm">
-                Page {page + 1}
+
+              <span
+                className="flex items-center justify-center px-6 py-1 
+                  bg-gradient-to-br from-[#1F1F1F] via-[#2D2D2D] to-[#3A3A3A] 
+                  border border-[#3E3E3E] rounded-lg 
+                  text-gray-300 text-sm shadow-inner"
+              >
+                Page{" "}
+                <span className="ml-2 text-white font-semibold">
+                  {page + 1}
+                </span>
               </span>
+
               <Button
                 type="button"
                 onClick={() => setPage((prev) => prev + 1)}
                 disabled={paLoading}
                 variant="outline"
                 size="sm"
-                className="border-[#3E3E3E] text-gray-300 hover:bg-[#2A2A2A] hover:text-white"
+                className="border border-[#3E3E3E] bg-[#1A1A1A] text-gray-300 
+               hover:bg-[#2A2A2A] hover:text-white 
+               disabled:opacity-50 disabled:cursor-not-allowed 
+               rounded-lg px-6 py-3 transition-all duration-300"
               >
                 Next
               </Button>
