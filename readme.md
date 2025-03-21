@@ -21,6 +21,7 @@ Frontend Deployment Link: [https://assignment-psi-ivory.vercel.app/](https://ass
 - Watch video solutions
 - Admins can manually add solution videos
 - Automated YouTube video solution fetcher via a backend cron job
+-  ❤️❤️I am not scrapping the data instead of that i am fetching the data from offical API's which reduce the latency and increase efficiency.❤️❤️
 
 ### 🛠️ Tech Stack
 
