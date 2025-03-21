@@ -1,6 +1,6 @@
 # 🚀 Contest Tracker Web App
 
-- Check out the demo video here 👉 [Project Demo - Loom](https://www.loom.com/share/291596e8b92e4fd297c14f31240fd02e?sid=8f333bf6-ffe1-4644-ba10-4545e6ea9566)
+- Check out the demo video here 👉 [Project Demo - Loom](https://www.loom.com/share/fcc64a0aca7b43e9927594b70af096b4?sid=c89332bd-54a9-4335-9878-cfe0c6dfa0c9)
 
   
 NOTE: sometime it will take 1 or 2 min to start as it is a free service from render --- --- -- ---
@@ -42,7 +42,7 @@ Frontend Deployment Link: [https://assignment-psi-ivory.vercel.app/](https://ass
 
 ## 📽️ Demo
 
-- Check out the demo video here 👉 [Project Demo - Loom](https://www.loom.com/share/291596e8b92e4fd297c14f31240fd02e?sid=8f333bf6-ffe1-4644-ba10-4545e6ea9566)
+- Check out the demo video here 👉 [Project Demo - Loom](https://www.loom.com/share/fcc64a0aca7b43e9927594b70af096b4?sid=c89332bd-54a9-4335-9878-cfe0c6dfa0c9)
 
 ## 📷 Screenshots
 
