@@ -4,6 +4,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html, body {
+  background-color: #121212;
+  min-height: 100%;
+  width: 100%;
+}
+
 @layer base {
     :root {
       --background: 0 0% 7%;
