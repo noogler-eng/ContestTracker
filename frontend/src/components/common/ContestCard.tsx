@@ -79,7 +79,11 @@ export default function ContestCard({ contest }: { contest: ContestType }) {
             </div>
             <div className="flex items-center gap-3">
               <Clock className="w-4 h-4 text-gray-400" />
-              <span>{(contest.duration / 3600).toFixed(1)} hrs</span>
+              {contest.duration >= 1440 ? (
+                <span>{(contest.duration / 1440).toFixed(1)} days</span>
+              ) : (
+                <span>{(contest.duration / 60).toFixed(1)} hrs</span>
+              )}
             </div>
           </div>
 
