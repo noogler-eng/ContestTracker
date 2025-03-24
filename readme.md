@@ -51,18 +51,20 @@ Frontend Deployment Link: [https://assignment-psi-ivory.vercel.app/](https://ass
 
 - Platform filter bar, User login with Google
 
- <img width="1440" alt="Homepage Screenshot" src="https://github.com/user-attachments/assets/a48c9e45-a003-4e97-95ec-2f595a68650a" />
+<img width="1440" alt="Screenshot 2025-03-24 at 11 51 27 PM" src="https://github.com/user-attachments/assets/5e038f39-de5e-42d5-961a-9041bce2977b" />
+
+<img width="1440" alt="Screenshot 2025-03-24 at 11 52 16 PM" src="https://github.com/user-attachments/assets/dd0bd510-4ce8-4069-882a-df21ecca077e" />
 
 ### 📑 Pagination Example
 
-<img width="1440" alt="Pagination Screenshot" src="https://github.com/user-attachments/assets/ef27beae-3e6f-40f5-94e5-fa66457fcbe9" />
+<img width="1440" alt="Screenshot 2025-03-24 at 11 58 06 PM" src="https://github.com/user-attachments/assets/27069b8c-e536-4ff7-8d52-d789e564f741" />
 
 ### 👤 Profile Page
 
 - Displays logged-in user details
 - Admin badge for admin users
-
- <img width="1440" alt="Profile Screenshot" src="https://github.com/user-attachments/assets/4f109421-c541-4a3d-ae3e-4dd3714f1d5d" />
+  
+<img width="1440" alt="Screenshot 2025-03-24 at 11 52 50 PM" src="https://github.com/user-attachments/assets/36fd9d1f-a26b-4c14-9d6b-0f558d237178" />
 
 ### 🏆 Contest Card Example
 
@@ -80,11 +82,16 @@ Frontend Deployment Link: [https://assignment-psi-ivory.vercel.app/](https://ass
  <img width="1440" alt="Cron Job Screenshot" src="https://github.com/user-attachments/assets/e3fd6f65-8d62-432a-a1f3-d2b01a85b9ed" />
 
 ### Tablet view 
- <img width="462" alt="Screenshot 2025-03-20 at 2 06 09 PM" src="https://github.com/user-attachments/assets/30c1564c-00bc-44e6-850a-6d4d99e5ae61" />
- 
-### Mobile view
-<img width="323" alt="Screenshot 2025-03-20 at 2 06 55 PM" src="https://github.com/user-attachments/assets/b5a75df9-1f13-4f23-8d23-faa96405970c" />
 
+<img width="519" alt="Screenshot 2025-03-24 at 11 56 29 PM" src="https://github.com/user-attachments/assets/4bd7e65f-4d80-4480-96d2-063c147a0cb1" />
+
+<img width="519" alt="Screenshot 2025-03-24 at 11 56 09 PM" src="https://github.com/user-attachments/assets/b162fa6c-c3c3-4986-9ba1-cca54561a7c6" />
+
+### Mobile view
+
+<img width="334" alt="Screenshot 2025-03-24 at 11 54 46 PM" src="https://github.com/user-attachments/assets/961a0e9c-68d0-4c5b-bd02-b0823bacc01b" />
+
+<img width="324" alt="Screenshot 2025-03-24 at 11 54 18 PM" src="https://github.com/user-attachments/assets/31e756b9-0c69-47ac-869b-a1157edd4dbd" />
 
 ### 🧠 Future Improvements
 
