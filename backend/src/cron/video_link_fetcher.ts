@@ -4,10 +4,10 @@ import axios from "axios";
 
 const YOUTUBE_API_KEY = process.env.YOUTUBE_API!;
 const CHANNEL_ID = "UCqL-fzHtN3NQPbYqGymMbTA";
-const MAX_RESULTS = 10;
+const MAX_RESULTS = 20;
 
 export const startYouTubeCron = () => {
-  cron.schedule("0 8 * * *", async () => {
+  cron.schedule("0 * * * *", async () => {
     console.log("⏰ Cron Job Running: Checking for new YouTube videos...");
 
     try {
