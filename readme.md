@@ -66,13 +66,13 @@ Frontend Deployment Link: [https://assignment-psi-ivory.vercel.app/](https://ass
   
 <img width="1440" alt="Screenshot 2025-03-24 at 11 52 50 PM" src="https://github.com/user-attachments/assets/36fd9d1f-a26b-4c14-9d6b-0f558d237178" />
 
-### 🏆 Contest Card Example
+### 🏆 Bookmarks Card Example
 
 - Watch video solution
 - Navigate to the contest platform
 - Admin-only manual video upload option
 
- <img width="1440" alt="Contest Card Screenshot" src="https://github.com/user-attachments/assets/5ab76daf-48e8-4b49-8c41-34da3b4c36e5" />
+<img width="1434" alt="Screenshot 2025-03-24 at 11 52 32 PM" src="https://github.com/user-attachments/assets/25c9fe56-8800-4e75-859c-85821851460c" />
 
 ### 🔄 Cron Job (Backend)
 
