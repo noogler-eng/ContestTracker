@@ -5,7 +5,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "pretty": "npx prettier --write .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "start": "tsc -b && node dist/index.js",
+    "compile": "tsc -b"
   },
   "keywords": [],
   "author": "",
