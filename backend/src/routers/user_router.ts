@@ -1,24 +1,16 @@
-import express from "express";
-import user_functions from "../controllers/user";
-import googleAuthMiddleware from "../middleware/middleware";
+import express from 'express'
+import user_functions from '../controllers/user'
+import googleAuthMiddleware from '../middleware/middleware'
 
-const user_router = express.Router();
+const user_router = express.Router()
 
+user_router.get('/profile', googleAuthMiddleware, user_functions.getCurrentUser)
+
+user_router.post('/bookmarks', googleAuthMiddleware, user_functions.addBookmark)
 user_router.get(
-  "/profile",
-  googleAuthMiddleware,
-  user_functions.getCurrentUser
-);
-
-user_router.post(
-  "/bookmarks",
-  googleAuthMiddleware,
-  user_functions.addBookmark
-);
-user_router.get(
-  "/bookmarks",
+  '/bookmarks',
   googleAuthMiddleware,
   user_functions.getUserBookmarks
-);
+)
 
-export default user_router;
+export default user_router
