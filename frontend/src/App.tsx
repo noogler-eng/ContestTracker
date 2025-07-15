@@ -59,8 +59,17 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/my_bookmarks" element={<Bookmarks />} />
-          <Route path="/contest-solution/:contestId" element={<ContestSolution />} />
+          <Route
+            path="/contest-solution/:contestId"
+            element={<ContestSolution />}
+          />
           <Route path="/practice" element={<Pratice />} />
+          <Route
+            path="*"
+            element={
+              <div className="text-center mt-20 text-white">Page Not Found</div>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </div>
