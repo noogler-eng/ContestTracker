@@ -43,6 +43,13 @@ export default function Navbar() {
               <Link to="/profile" className="hover:underline text-sm">
                 Profile
               </Link>
+              <Link
+                to="/practice"
+                className="block hover:underline text-sm"
+                onClick={() => setMenuOpen(false)}
+              >
+                pratice
+              </Link>
 
               <Avatar className="w-10 h-10">
                 <AvatarImage src={curr_user.picture} alt={curr_user.name} />
@@ -105,7 +112,7 @@ export default function Navbar() {
                 Profile
               </Link>
               <Link
-                to="/pratice"
+                to="/practice"
                 className="block hover:underline text-sm"
                 onClick={() => setMenuOpen(false)}
               >
