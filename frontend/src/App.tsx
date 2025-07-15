@@ -7,17 +7,22 @@ import { useSetRecoilState } from "recoil";
 import user from "./store/user_atom";
 import Profile from "./pages/Profile";
 import Bookmarks from "./pages/Bookmarks";
+import ContestSolution from "./pages/ContestSolution";
+import Pratice from "./pages/Pratice";
 
 const fetchCurrentUser = async () => {
   try {
     const token = localStorage.getItem("token");
     if (!token) return null;
 
-    const response = await axios.get(`${import.meta.env.VITE_PROD_BACKEND_URL}/user/profile`, {
-      headers: {
-        Authorization: token,
-      },
-    });
+    const response = await axios.get(
+      `${import.meta.env.VITE_PROD_BACKEND_URL}/user/profile`,
+      {
+        headers: {
+          Authorization: token,
+        },
+      }
+    );
 
     return response.data.user;
   } catch (error: any) {
@@ -47,13 +52,15 @@ function App() {
   }, []);
 
   return (
-    <div className="bg-[#1A1A1A] flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen">
       <BrowserRouter>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/my_bookmarks" element={<Bookmarks />} />
+          <Route path="/contest-solution/:contestId" element={<ContestSolution />} />
+          <Route path="/practice" element={<Pratice />} />
         </Routes>
       </BrowserRouter>
     </div>

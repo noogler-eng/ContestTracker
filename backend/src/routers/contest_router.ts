@@ -12,5 +12,9 @@ contest_router.post(
   '/upload_solution',
   contest_controllers.uploadVideoSolutionLink
 )
+contest_router.get(
+  '/getContestById/:contestId',
+  contest_controllers.getContestById
+)
 
 export default contest_router

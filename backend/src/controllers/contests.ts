@@ -3,6 +3,25 @@ import { Request, Response } from 'express'
 import ContestType from '../types/contest_type'
 import video_solution from '../models/contest_solution'
 
+const TAG_QUERY = `
+  query questionDetail($titleSlug: String!) {
+    question(titleSlug: $titleSlug) {
+      topicTags { name slug translatedName }
+    }
+  }
+`
+
+const getTags = async (titleSlug: string) => {
+  const payload = {
+    operationName: 'questionDetail',
+    query: TAG_QUERY,
+    variables: { titleSlug },
+  }
+
+  const { data } = await axios.post('https://leetcode.com/graphql', payload)
+  return data?.data?.question?.topicTags ?? []
+}
+
 const fetchUpcommingContest = async (req: Request, res: Response) => {
   try {
     const [codeforces, codechef, leetcodeUpcoming] = await Promise.all([
@@ -229,8 +248,54 @@ const uploadVideoSolutionLink = async (req: any, res: any) => {
   }
 }
 
+export const getContestById = async (req: Request, res: Response) => {
+  const { contestId } = req.params
+
+  try {
+    const contestPayload = {
+      operationName: 'contestQuestionList',
+      query: `
+        query contestQuestionList($contestSlug: String!) {
+          contestQuestionList(contestSlug: $contestSlug) {
+            isAc
+            credit
+            title
+            titleSlug
+            titleCn
+            questionId
+            isContest
+          }
+        }
+      `,
+      variables: { contestSlug: contestId },
+    }
+
+    const contestRes = await axios.post(
+      'https://leetcode.com/graphql',
+      contestPayload
+    )
+
+    const questionList = contestRes.data?.data?.contestQuestionList ?? []
+
+    const questionsWithTags = await Promise.all(
+      questionList.map(async (q: any) => ({
+        ...q,
+        topicTags: await getTags(q.titleSlug),
+      }))
+    )
+
+    res.status(200).json({
+      message: 'Contest fetched successfully',
+      data: questionsWithTags,
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' })
+  }
+}
+
 export default {
   fetchUpcommingContest,
   fetchPastContest,
   uploadVideoSolutionLink,
+  getContestById,
 }

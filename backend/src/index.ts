@@ -6,6 +6,7 @@ import auth_router from './routers/auth_router'
 import dotenv from 'dotenv'
 import user_router from './routers/user_router'
 import startYouTubeCron from './cron/video_link_fetcher'
+import { sheet_router } from './routers/sheet_router'
 dotenv.config()
 
 const app = express()
@@ -26,6 +27,7 @@ app.get('/', (req: any, res: any) => res.send('Server is running'))
 app.use('/auth', auth_router)
 app.use('/contests', contest_router)
 app.use('/user', user_router)
+app.use('/sheets', sheet_router)
 
 const PORT = process.env.PORT || 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))

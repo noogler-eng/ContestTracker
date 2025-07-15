@@ -10,8 +10,11 @@ export default function useMyContests({ pageNumber }: { pageNumber: number }) {
     setLoading(true);
     setError(null);
     try {
+      const backendURL = import.meta.env.DEV
+        ? import.meta.env.VITE_DEV_BACKEND_URL
+        : import.meta.env.VITE_PROD_BACKEND_URL;
       const response = await axios.get(
-        `${import.meta.env.VITE_PROD_BACKEND_URL}/user/bookmarks?page=${pageNumber}`,
+        `${backendURL}/user/bookmarks?page=${pageNumber}`,
         {
           headers: {
             Authorization: localStorage.getItem("token"),

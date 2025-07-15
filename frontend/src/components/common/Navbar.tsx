@@ -60,8 +60,11 @@ export default function Navbar() {
           ) : (
             <GoogleLogin
               onSuccess={async (credentialResponse) => {
+                const backendURL = import.meta.env.DEV
+                  ? import.meta.env.VITE_DEV_BACKEND_URL
+                  : import.meta.env.VITE_PROD_BACKEND_URL;
                 await axios.post(
-                  `${import.meta.env.VITE_PROD_BACKEND_URL}/auth/google`,
+                  `${backendURL}/auth/google`,
                   {},
                   {
                     headers: {
@@ -69,6 +72,7 @@ export default function Navbar() {
                     },
                   }
                 );
+                console.log("Login Successful", credentialResponse);
                 localStorage.setItem("token", credentialResponse.credential!);
                 window.location.reload();
               }}
@@ -99,6 +103,13 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
               >
                 Profile
+              </Link>
+              <Link
+                to="/pratice"
+                className="block hover:underline text-sm"
+                onClick={() => setMenuOpen(false)}
+              >
+                pratice
               </Link>
 
               <div className="flex items-center gap-4">
