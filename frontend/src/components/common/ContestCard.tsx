@@ -19,6 +19,8 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import axios from "axios";
 import type { ContestType } from "@/types/contest_type";
+import { Youtube } from "lucide-react";
+import { FileText } from "lucide-react";
 
 const platformGradients: Record<string, string> = {
   LeetCode: "from-[#1A1A1A] via-[#2D2D2D] to-[#FFA116]",
@@ -64,13 +66,17 @@ export default function ContestCard({ contest }: { contest: ContestType }) {
           {String(contest.id).replace(/\D/g, "")}
         </div>
 
-        <CardContent className="p-6 space-y-5 text-white relative z-10">
+        <CardContent className="p-6 space-y-5 text-white relative z-10 flex flex-col">
           {/* Title + Link */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-start justify-between">
             <h3 className="text-xl font-semibold leading-tight">
               {contest.title}
             </h3>
-            <a href={contest.link} target="_blank" rel="noopener noreferrer">
+            <a
+              href={contest.link}
+              target="_blank"
+              rel="noopener noreferrer hover:cursor-pointer"
+            >
               <ExternalLink className="w-5 h-5 text-gray-300 hover:text-white" />
             </a>
           </div>
@@ -96,35 +102,38 @@ export default function ContestCard({ contest }: { contest: ContestType }) {
             </div>
           </div>
 
-          {/* past contest written solution using ai */}
-          {contest.type == "LeetCode" &&
-            new Date(contest.start_date) < new Date() && (
-              <Button
-                asChild
-                className="bg-[#1F1F1F] border border-[#333] text-gray-200
-                          hover:bg-[#2A2A2A] hover:shadow-lg hover:shadow-green-500/30
-                          rounded-xl px-5 py-3 backdrop-blur
-                          transition-all duration-300 ease-in-out"
-              >
-                <a
-                  href={`/contest-solution/${contest.id}`}
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2"
+          {/* buttons */}
+          <div className="flex gap-1">
+            {/* past contest written solution using ai */}
+            {contest.type == "LeetCode" &&
+              new Date(contest.start_date) < new Date() && (
+                <Button
+                  asChild
+                  className="bg-[#1F1F1F] border border-[#333] text-gray-200
+                  hover:bg-[#2A2A2A] hover:shadow-lg hover:shadow-green-500/30
+                  rounded-xl px-5 py-3 backdrop-blur
+                  transition-all duration-300 ease-in-out"
                 >
-                  <span className="text-green-400">See Solution</span>
-                </a>
-              </Button>
-            )}
+                  <a
+                    href={`/contest-solution/${contest.id}`}
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2"
+                  >
+                    <span className="text-green-400">
+                      <FileText />
+                    </span>
+                  </a>
+                </Button>
+              )}
 
-          {/* Action Buttons */}
-          <div className="flex items-center gap-3 pt-2 flex-wrap">
+            {/* Action Buttons */}
             {contest.video_solution ? (
               <Button
                 asChild
                 className="bg-[#1F1F1F] border border-[#333] text-gray-200
-                hover:bg-[#2A2A2A] hover:shadow-lg hover:shadow-green-500/30
-                rounded-xl px-5 py-3 backdrop-blur
-                transition-all duration-300 ease-in-out"
+                  hover:bg-[#2A2A2A] hover:shadow-lg hover:shadow-green-500/30
+                  rounded-xl px-5 py-3 backdrop-blur
+                  transition-all duration-300 ease-in-out"
               >
                 <a
                   href={contest.video_solution}
@@ -132,16 +141,18 @@ export default function ContestCard({ contest }: { contest: ContestType }) {
                   rel="noopener noreferrer"
                   className="flex items-center gap-2"
                 >
-                  <span className="text-green-400">Watch Solution</span>
+                  <span className="text-green-400">
+                    <Youtube />
+                  </span>
                 </a>
               </Button>
             ) : (
               curr_user.isAdmin && (
                 <Button
                   className="bg-[#1F1F1F] border border-[#333] text-gray-200
-        hover:bg-[#2A2A2A] hover:shadow-lg hover:shadow-blue-600/30
-        rounded-xl px-5 py-3 backdrop-blur
-        transition-all duration-300 ease-in-out"
+                    hover:bg-[#2A2A2A] hover:shadow-lg hover:shadow-blue-600/30
+                    rounded-xl px-5 py-3 backdrop-blur
+                    transition-all duration-300 ease-in-out"
                   onClick={() => setOpen(true)}
                 >
                   ➕ Add Solution
@@ -152,9 +163,9 @@ export default function ContestCard({ contest }: { contest: ContestType }) {
             {curr_user.email && (
               <Button
                 className="bg-[#1F1F1F] border border-[#333] text-gray-200
-                hover:bg-[#2A2A2A] hover:shadow-lg hover:shadow-yellow-500/30
-                rounded-xl px-5 py-3 backdrop-blur
-                flex items-center gap-2 transition-all duration-300 ease-in-out"
+                  hover:bg-[#2A2A2A] hover:shadow-lg hover:shadow-yellow-500/30
+                  rounded-xl px-5 py-3 backdrop-blur
+                  flex items-center gap-2 transition-all duration-300 ease-in-out"
                 onClick={handleBookmark}
               >
                 <Bookmark className="w-5 h-5 text-yellow-400" />

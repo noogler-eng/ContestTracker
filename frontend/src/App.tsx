@@ -1,9 +1,9 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import axios from "axios";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
 import Home from "./pages/Home";
 import Navbar from "./components/common/Navbar";
-import { useSetRecoilState } from "recoil";
 import user from "./store/user_atom";
 import Profile from "./pages/Profile";
 import Bookmarks from "./pages/Bookmarks";

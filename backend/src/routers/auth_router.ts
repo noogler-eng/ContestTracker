@@ -4,7 +4,10 @@ import User from '../models/user_schema'
 
 const auth_router = express.Router()
 
-// this is for google login
+// @dev we are using jwt to verify the token sent by google
+// @route POST /auth/google
+// @access Public
+// @returns user data if token is valid, else error message
 auth_router.post('/google', async (req, res) => {
   const token = req.headers.authorization
   if (!token) {
@@ -15,7 +18,6 @@ auth_router.post('/google', async (req, res) => {
   try {
     const json_data = jwt.decode(token)
     const { name, email, picture }: any = json_data
-    console.log('json token details: ', name, email, picture)
 
     let user = await User.findOne({ email })
     if (!user) {
@@ -23,7 +25,7 @@ auth_router.post('/google', async (req, res) => {
       await user.save()
     }
 
-    res.status(200).json({ message: 'User logged in', user })
+    res.status(200).json({ message: 'user successfully logged in', user })
   } catch (error) {
     console.error('Error verifying token', error)
     res.status(401).json({ message: 'Invalid token' })

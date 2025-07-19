@@ -70,18 +70,22 @@ export default function Navbar() {
                 const backendURL = import.meta.env.DEV
                   ? import.meta.env.VITE_DEV_BACKEND_URL
                   : import.meta.env.VITE_PROD_BACKEND_URL;
-                await axios.post(
-                  `${backendURL}/auth/google`,
-                  {},
-                  {
-                    headers: {
-                      Authorization: credentialResponse.credential,
-                    },
-                  }
-                );
-                console.log("Login Successful", credentialResponse);
-                localStorage.setItem("token", credentialResponse.credential!);
-                window.location.reload();
+                try {
+                  await axios.post(
+                    `${backendURL}/auth/google`,
+                    {},
+                    {
+                      headers: {
+                        Authorization: credentialResponse.credential,
+                      },
+                    }
+                  );
+                  console.log(credentialResponse.credential);
+                  localStorage.setItem("token", credentialResponse.credential!);
+                  window.location.reload();
+                } catch (error) {
+                  console.error("Login Failed", error);
+                }
               }}
               onError={() => {
                 console.log("Login Failed");
