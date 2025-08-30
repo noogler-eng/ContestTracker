@@ -1,12 +1,13 @@
-import { GoogleLogin } from "@react-oauth/google";
-import axios from "axios";
-import { useRecoilValue } from "recoil";
-import user from "@/store/user_atom";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { GoogleLogin } from "@react-oauth/google";
+import { useRecoilValue } from "recoil";
 import { Link } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
+import Button from "../magicui/Button";
+import user from "@/store/user_atom";
+import axios from "axios";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const curr_user = useRecoilValue(user);
@@ -15,54 +16,61 @@ export default function Navbar() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.reload();
+    window.location.href = "/";
   };
 
-  return (
-    <header className="w-full shadow bg-[#1A1A1A] sticky top-0 z-50 text-white">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-        {/* Logo */}
-        <h1 className="text-xl sm:text-2xl font-bold">
-          <Link to="/">Contest Tracker</Link>
-        </h1>
+  const navLinks = [
+    { to: "/my_bookmarks", label: "My Bookmarks" },
+    { to: "/profile", label: "Profile" },
+    { to: "/practice", label: "Practice" },
+  ];
 
-        {/* Mobile Hamburger */}
-        <div className="lg:hidden">
-          <Menu
-            className="w-6 h-6 cursor-pointer"
-            onClick={() => setMenuOpen(!menuOpen)}
+  return (
+    <header className="w-full shadow-md bg-[#0f0f0f] sticky top-0 z-50 text-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+        {/* Logo */}
+        <div className="flex items-center gap-2">
+          <img
+            src="Contest-Tracker-Logo.png"
+            width={42}
+            height={42}
+            alt="logo"
           />
+          <h1 className="text-lg sm:text-2xl font-extrabold tracking-tight">
+            <Link to="/">Tracker</Link>
+          </h1>
         </div>
 
         {/* Desktop Links */}
-        <div className="hidden lg:flex items-center gap-6">
+        <nav className="hidden lg:flex items-center gap-8">
           {curr_user.email ? (
             <>
-              <Link to="/my_bookmarks" className="hover:underline text-sm">
-                My Bookmarks
-              </Link>
-              <Link to="/profile" className="hover:underline text-sm">
-                Profile
-              </Link>
-              <Link
-                to="/practice"
-                className="block hover:underline text-sm"
-                onClick={() => setMenuOpen(false)}
-              >
-                pratice
-              </Link>
+              {navLinks.map((link) => (
+                <Link
+                  key={link.to}
+                  to={link.to}
+                  className="relative text-sm font-medium transition hover:text-gray-300"
+                >
+                  {link.label}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-white transition-all group-hover:w-full"></span>
+                </Link>
+              ))}
 
-              <Avatar className="w-10 h-10">
-                <AvatarImage src={curr_user.picture} alt={curr_user.name} />
-                <AvatarFallback>{curr_user.name?.[0]}</AvatarFallback>
-              </Avatar>
-              <div className="text-sm">
-                <p className="font-medium">{curr_user.name}</p>
-                <p className="text-gray-400 text-xs">{curr_user.email}</p>
+              <div className="flex items-center gap-3 pl-4 border-l border-gray-700">
+                <Avatar className="w-10 h-10">
+                  <AvatarImage src={curr_user.picture} alt={curr_user.name} />
+                  <AvatarFallback>{curr_user.name?.[0]}</AvatarFallback>
+                </Avatar>
+                <div className="text-sm leading-tight">
+                  <p className="font-semibold">{curr_user.name}</p>
+                  <p className="text-gray-400 text-xs">{curr_user.email}</p>
+                </div>
+                <Button
+                  variant="primary"
+                  text="Logout"
+                  onClick={handleLogout}
+                />
               </div>
-
-              <Button variant="destructive" onClick={handleLogout}>
-                Logout
-              </Button>
             </>
           ) : (
             <GoogleLogin
@@ -70,101 +78,97 @@ export default function Navbar() {
                 const backendURL = import.meta.env.DEV
                   ? import.meta.env.VITE_DEV_BACKEND_URL
                   : import.meta.env.VITE_PROD_BACKEND_URL;
-                try {
-                  await axios.post(
-                    `${backendURL}/auth/google`,
-                    {},
-                    {
-                      headers: {
-                        Authorization: credentialResponse.credential,
-                      },
-                    }
-                  );
-                  console.log(credentialResponse.credential);
-                  localStorage.setItem("token", credentialResponse.credential!);
-                  window.location.reload();
-                } catch (error) {
-                  console.error("Login Failed", error);
-                }
+                await axios.post(
+                  `${backendURL}/auth/google`,
+                  {},
+                  { headers: { Authorization: credentialResponse.credential } }
+                );
+                localStorage.setItem("token", credentialResponse.credential!);
+                window.location.reload();
               }}
-              onError={() => {
-                console.log("Login Failed");
-              }}
-              shape="pill"
+              onError={() => console.log("Login Failed")}
+            />
+          )}
+        </nav>
+
+        {/* Mobile Menu Button */}
+        <div className="lg:hidden">
+          {menuOpen ? (
+            <X
+              className="w-7 h-7 cursor-pointer"
+              onClick={() => setMenuOpen(false)}
+            />
+          ) : (
+            <Menu
+              className="w-7 h-7 cursor-pointer"
+              onClick={() => setMenuOpen(true)}
             />
           )}
         </div>
       </div>
 
-      {/* Mobile Dropdown Menu */}
-      {menuOpen && (
-        <div className="lg:hidden bg-[#1A1A1A] px-4 py-4 border-t border-gray-700 space-y-4">
-          {curr_user.email ? (
-            <>
-              <Link
-                to="/my_bookmarks"
-                className="block hover:underline text-sm"
-                onClick={() => setMenuOpen(false)}
-              >
-                My Bookmarks
-              </Link>
-              <Link
-                to="/profile"
-                className="block hover:underline text-sm"
-                onClick={() => setMenuOpen(false)}
-              >
-                Profile
-              </Link>
-              <Link
-                to="/practice"
-                className="block hover:underline text-sm"
-                onClick={() => setMenuOpen(false)}
-              >
-                pratice
-              </Link>
+      {/* Mobile Dropdown */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25 }}
+            className="lg:hidden bg-[#111111] border-t border-gray-700 px-6 py-4 space-y-4"
+          >
+            {curr_user.email ? (
+              <>
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.to}
+                    to={link.to}
+                    className="block text-sm font-medium hover:text-gray-300"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
 
-              <div className="flex items-center gap-4">
-                <Avatar className="w-10 h-10">
-                  <AvatarImage src={curr_user.picture} alt={curr_user.name} />
-                  <AvatarFallback>{curr_user.name?.[0]}</AvatarFallback>
-                </Avatar>
-                <div className="text-sm">
-                  <p className="font-medium">{curr_user.name}</p>
-                  <p className="text-gray-400 text-xs">{curr_user.email}</p>
+                <div className="flex items-center gap-3">
+                  <Avatar className="w-10 h-10">
+                    <AvatarImage src={curr_user.picture} alt={curr_user.name} />
+                    <AvatarFallback>{curr_user.name?.[0]}</AvatarFallback>
+                  </Avatar>
+                  <div className="text-sm">
+                    <p className="font-semibold">{curr_user.name}</p>
+                    <p className="text-gray-400 text-xs">{curr_user.email}</p>
+                  </div>
                 </div>
-              </div>
 
-              <Button
-                variant="destructive"
-                className="w-full"
-                onClick={handleLogout}
-              >
-                Logout
-              </Button>
-            </>
-          ) : (
-            <GoogleLogin
-              onSuccess={async (credentialResponse) => {
-                await axios.post(
-                  `${import.meta.env.VITE_DEV_BACKEND_URL}/auth/google`,
-                  {},
-                  {
-                    headers: {
-                      Authorization: credentialResponse.credential,
-                    },
-                  }
-                );
-                localStorage.setItem("token", credentialResponse.credential!);
-                window.location.reload();
-              }}
-              onError={() => {
-                console.log("Login Failed");
-              }}
-              shape="pill"
-            />
-          )}
-        </div>
-      )}
+                <Button
+                  variant="primary"
+                  text="Logout"
+                  onClick={handleLogout}
+                />
+              </>
+            ) : (
+              <GoogleLogin
+                onSuccess={async (credentialResponse) => {
+                  const backendURL = import.meta.env.DEV
+                    ? import.meta.env.VITE_DEV_BACKEND_URL
+                    : import.meta.env.VITE_PROD_BACKEND_URL;
+                  await axios.post(
+                    `${backendURL}/auth/google`,
+                    {},
+                    {
+                      headers: { Authorization: credentialResponse.credential },
+                    }
+                  );
+                  localStorage.setItem("token", credentialResponse.credential!);
+                  window.location.reload();
+                }}
+                onError={() => console.log("Login Failed")}
+              />
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

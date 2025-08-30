@@ -90,4 +90,33 @@ export const getUserBookmarks = async (req: any, res: any) => {
   }
 }
 
-export default { getCurrentUser, addBookmark, getUserBookmarks }
+const updateProfile = async (req: any, res: any) => {
+  try {
+    const email = req.email
+    const { college, rollNo, branch, resume } = req.body
+
+    if (!email) {
+      return res.status(401).json({ message: 'User not authenticated' })
+    }
+
+    const user = await User.findOne({ email: email })
+    if (!user) return res.status(404).json({ message: 'User not found' })
+
+    user.college = college || user.college
+    user.rollNo = rollNo || user.rollNo
+    user.branch = branch || user.branch
+    user.resume = resume || user.resume
+
+    await user.save()
+
+    return res.status(200).json({
+      message: 'Profile updated successfully',
+      user: user,
+    })
+  } catch (error) {
+    console.error('Update Profile Error:', error)
+    return res.status(500).json({ message: 'Server Error' })
+  }
+}
+
+export default { getCurrentUser, addBookmark, getUserBookmarks, updateProfile }

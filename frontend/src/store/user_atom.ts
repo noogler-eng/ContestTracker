@@ -5,7 +5,11 @@ const user = atom({
   default: {
     name: "",
     picture: "",
+    college: "",
+    rollNo: "",
+    branch: "",
     email: "",
+    resume: "",
     isAdmin: false,
     bookmarks: [],
   },

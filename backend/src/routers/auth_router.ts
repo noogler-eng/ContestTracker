@@ -10,6 +10,7 @@ const auth_router = express.Router()
 // @returns user data if token is valid, else error message
 auth_router.post('/google', async (req, res) => {
   const token = req.headers.authorization
+  console.log('Received token:', token)
   if (!token) {
     res.status(401).json({ message: 'require token' })
     return
@@ -24,6 +25,8 @@ auth_router.post('/google', async (req, res) => {
       user = new User({ name, email, picture })
       await user.save()
     }
+
+    console.log('User found or created:', user)
 
     res.status(200).json({ message: 'user successfully logged in', user })
   } catch (error) {

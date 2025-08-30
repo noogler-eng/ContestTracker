@@ -1,12 +1,21 @@
 "use client";
 
 import type React from "react";
+import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import axios from "axios";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Bookmark, Calendar, Clock, ExternalLink } from "lucide-react";
+import {
+  Bookmark,
+  Calendar,
+  Clock,
+  ExternalLink,
+  Youtube,
+  FileText,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useRecoilValue } from "recoil";
 import user from "@/store/user_atom";
 import {
   Dialog,
@@ -16,11 +25,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import axios from "axios";
 import type { ContestType } from "@/types/contest_type";
-import { Youtube } from "lucide-react";
-import { FileText } from "lucide-react";
 
 const platformGradients: Record<string, string> = {
   LeetCode: "from-[#1A1A1A] via-[#2D2D2D] to-[#FFA116]",
@@ -75,7 +80,8 @@ export default function ContestCard({ contest }: { contest: ContestType }) {
             <a
               href={contest.link}
               target="_blank"
-              rel="noopener noreferrer hover:cursor-pointer"
+              rel="noopener noreferrer"
+              className="hover:cursor-pointer"
             >
               <ExternalLink className="w-5 h-5 text-gray-300 hover:text-white" />
             </a>
@@ -102,74 +108,71 @@ export default function ContestCard({ contest }: { contest: ContestType }) {
             </div>
           </div>
 
-          {/* buttons */}
-          <div className="flex gap-1">
-            {/* past contest written solution using ai */}
-            {contest.type == "LeetCode" &&
+          {/* Action Buttons */}
+          <div className="flex flex-wrap gap-3 mt-4">
+            {/* Past Contest AI Written Solution */}
+            {contest.type === "LeetCode" &&
               new Date(contest.start_date) < new Date() && (
                 <Button
                   asChild
-                  className="bg-[#1F1F1F] border border-[#333] text-gray-200
-                  hover:bg-[#2A2A2A] hover:shadow-lg hover:shadow-green-500/30
-                  rounded-xl px-5 py-3 backdrop-blur
-                  transition-all duration-300 ease-in-out"
+                  className="px-4 py-2 rounded-full text-sm font-medium
+                  bg-[#1F1F1F] border border-[#333] text-gray-200
+                  hover:bg-[#2A2A2A] hover:shadow-[0_0_12px_rgba(34,197,94,0.3)]
+                  transition-all duration-300 flex items-center gap-2"
                 >
                   <a
                     href={`/contest-solution/${contest.id}`}
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2"
                   >
-                    <span className="text-green-400">
-                      <FileText />
-                    </span>
+                    <FileText className="w-4 h-4 text-green-400" />
+                    <span>AI Solution</span>
                   </a>
                 </Button>
               )}
 
-            {/* Action Buttons */}
+            {/* Video Solution */}
             {contest.video_solution ? (
               <Button
                 asChild
-                className="bg-[#1F1F1F] border border-[#333] text-gray-200
-                  hover:bg-[#2A2A2A] hover:shadow-lg hover:shadow-green-500/30
-                  rounded-xl px-5 py-3 backdrop-blur
-                  transition-all duration-300 ease-in-out"
+                className="px-4 py-2 rounded-full text-sm font-medium
+                bg-[#1F1F1F] border border-[#333] text-gray-200
+                hover:bg-[#2A2A2A] hover:shadow-[0_0_12px_rgba(239,68,68,0.35)]
+                transition-all duration-300 flex items-center gap-2"
               >
                 <a
                   href={contest.video_solution}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2"
                 >
-                  <span className="text-green-400">
-                    <Youtube />
-                  </span>
+                  <Youtube className="w-4 h-4 text-red-500" />
+                  <span>Watch Solution</span>
                 </a>
               </Button>
             ) : (
               curr_user.isAdmin && (
                 <Button
-                  className="bg-[#1F1F1F] border border-[#333] text-gray-200
-                    hover:bg-[#2A2A2A] hover:shadow-lg hover:shadow-blue-600/30
-                    rounded-xl px-5 py-3 backdrop-blur
-                    transition-all duration-300 ease-in-out"
                   onClick={() => setOpen(true)}
+                  className="px-4 py-2 rounded-full text-sm font-medium
+                  bg-[#1F1F1F] border border-[#333] text-gray-200
+                  hover:bg-[#2A2A2A] hover:shadow-[0_0_12px_rgba(37,99,235,0.35)]
+                  transition-all duration-300 flex items-center gap-2"
                 >
                   ➕ Add Solution
                 </Button>
               )
             )}
 
+            {/* Bookmark */}
             {curr_user.email && (
               <Button
-                className="bg-[#1F1F1F] border border-[#333] text-gray-200
-                  hover:bg-[#2A2A2A] hover:shadow-lg hover:shadow-yellow-500/30
-                  rounded-xl px-5 py-3 backdrop-blur
-                  flex items-center gap-2 transition-all duration-300 ease-in-out"
                 onClick={handleBookmark}
+                className="px-4 py-2 rounded-full text-sm font-medium
+                bg-[#1F1F1F] border border-[#333] text-gray-200
+                hover:bg-[#2A2A2A] hover:shadow-[0_0_12px_rgba(234,179,8,0.35)]
+                transition-all duration-300 flex items-center gap-2"
               >
-                <Bookmark className="w-5 h-5 text-yellow-400" />
-                <span className="text-yellow-400">Bookmark</span>
+                <Bookmark className="w-4 h-4 text-yellow-400" />
+                <span>Bookmark</span>
               </Button>
             )}
           </div>

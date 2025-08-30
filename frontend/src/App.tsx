@@ -8,21 +8,25 @@ import user from "./store/user_atom";
 import Profile from "./pages/Profile";
 import Bookmarks from "./pages/Bookmarks";
 import ContestSolution from "./pages/ContestSolution";
-import Pratice from "./pages/Pratice";
+import Landing from "./pages/Landing";
+import NotFound from "./pages/NotFound";
+import { ProtectedRoute } from "./components/providers/Authorised";
+import Practice from "./pages/Pratice";
 
 const fetchCurrentUser = async () => {
   try {
     const token = localStorage.getItem("token");
     if (!token) return null;
 
-    const response = await axios.get(
-      `${import.meta.env.VITE_PROD_BACKEND_URL}/user/profile`,
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
+    const backendURL = import.meta.env.DEV
+      ? import.meta.env.VITE_DEV_BACKEND_URL
+      : import.meta.env.VITE_PROD_BACKEND_URL;
+
+    const response = await axios.get(`${backendURL}/user/profile`, {
+      headers: {
+        Authorization: token,
+      },
+    });
 
     return response.data.user;
   } catch (error: any) {
@@ -41,11 +45,15 @@ function App() {
     const getUser = async () => {
       const currentUser = await fetchCurrentUser();
       setUser({
-        name: currentUser.name,
-        picture: currentUser.picture,
-        email: currentUser.email,
-        isAdmin: currentUser.isadmin,
-        bookmarks: currentUser.bookmarks,
+        name: currentUser?.name,
+        picture: currentUser?.picture,
+        email: currentUser?.email,
+        college: currentUser?.college,
+        rollNo: currentUser?.rollNo,
+        branch: currentUser?.branch,
+        resume: currentUser?.resume,
+        isAdmin: currentUser?.isadmin,
+        bookmarks: currentUser?.bookmarks,
       });
     };
     getUser();
@@ -56,20 +64,23 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/my_bookmarks" element={<Bookmarks />} />
-          <Route
-            path="/contest-solution/:contestId"
-            element={<ContestSolution />}
-          />
-          <Route path="/practice" element={<Pratice />} />
-          <Route
-            path="*"
-            element={
-              <div className="text-center mt-20 text-white">Page Not Found</div>
-            }
-          />
+          {/* Public routes */}
+          <Route path="/" element={<Landing />} />
+          <Route path="/home" element={<Home />} />
+
+          {/* Protected routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/my_bookmarks" element={<Bookmarks />} />
+            <Route
+              path="/contest-solution/:contestId"
+              element={<ContestSolution />}
+            />
+            <Route path="/practice" element={<Practice />} />
+          </Route>
+
+          {/* Fallback */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </div>
