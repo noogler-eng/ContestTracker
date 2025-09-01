@@ -60,6 +60,36 @@ const addBookmark = async (req: any, res: any) => {
   }
 }
 
+const removeBookmark = async (req: any, res: any) => {
+  try {
+    const { contestId } = req.body
+    const email = req.email
+
+    if (!contestId) {
+      return res.status(400).json({ message: 'Missing contestId' })
+    }
+
+    const user = await User.findOne({ email: email })
+    if (!user) return res.status(404).json({ message: 'User not found' })
+
+    const isAlreadyBookmarked = user.bookmarks?.includes(contestId)
+
+    if (isAlreadyBookmarked) {
+      user.bookmarks = user.bookmarks.filter((_id: any) => {
+        return _id.toString() !== contestId
+      })
+      await user.save()
+    }
+
+    return res
+      .status(200)
+      .json({ message: 'Contest unbookmarked successfully' })
+  } catch (error) {
+    console.error('Bookmark Error:', error)
+    return res.status(500).json({ message: 'Server error' })
+  }
+}
+
 // this is controller function to fetch all the user bookmarks
 // /user/bookmarks?page=2
 export const getUserBookmarks = async (req: any, res: any) => {
@@ -119,4 +149,10 @@ const updateProfile = async (req: any, res: any) => {
   }
 }
 
-export default { getCurrentUser, addBookmark, getUserBookmarks, updateProfile }
+export default {
+  getCurrentUser,
+  addBookmark,
+  getUserBookmarks,
+  updateProfile,
+  removeBookmark,
+}

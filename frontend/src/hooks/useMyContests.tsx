@@ -1,27 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
 export default function useMyContests({ pageNumber }: { pageNumber: number }) {
-  const [bookmarks, setBookmarks] = useState(null);
+  const [bookmarks, setBookmarks] = useState<any[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0); // 🔑
 
-  const fetchContests = async () => {
+  const fetchContests = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
       const backendURL = import.meta.env.DEV
         ? import.meta.env.VITE_DEV_BACKEND_URL
         : import.meta.env.VITE_PROD_BACKEND_URL;
+
       const response = await axios.get(
         `${backendURL}/user/bookmarks?page=${pageNumber}`,
         {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
+          headers: { Authorization: localStorage.getItem("token") },
         }
       );
-      console.log("nook: ", bookmarks);
       setBookmarks(response.data.bookmarks);
     } catch (err: any) {
       console.error(err);
@@ -29,11 +28,14 @@ export default function useMyContests({ pageNumber }: { pageNumber: number }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [pageNumber]);
 
   useEffect(() => {
     fetchContests();
-  }, [pageNumber]);
+  }, [fetchContests, refreshKey]); 
 
-  return { bookmarks, loading, error };
+  // expose a refresh trigger
+  const refresh = () => setRefreshKey(prev => prev + 1);
+
+  return { bookmarks, loading, error, refresh, setBookmarks };
 }

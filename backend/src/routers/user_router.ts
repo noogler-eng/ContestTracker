@@ -9,6 +9,11 @@ user_router.get('/profile', googleAuthMiddleware, user_functions.getCurrentUser)
 user_router.post('/profile', googleAuthMiddleware, user_functions.updateProfile)
 
 user_router.post('/bookmarks', googleAuthMiddleware, user_functions.addBookmark)
+user_router.delete(
+  '/bookmarks',
+  googleAuthMiddleware,
+  user_functions.removeBookmark
+)
 
 user_router.get(
   '/bookmarks',

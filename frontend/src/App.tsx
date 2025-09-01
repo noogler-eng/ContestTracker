@@ -12,6 +12,7 @@ import Landing from "./pages/Landing";
 import NotFound from "./pages/NotFound";
 import { ProtectedRoute } from "./components/providers/Authorised";
 import Practice from "./pages/Pratice";
+import Footer from "./components/common/Footer";
 
 const fetchCurrentUser = async () => {
   try {
@@ -80,6 +81,7 @@ function App() {
           {/* Fallback */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   );

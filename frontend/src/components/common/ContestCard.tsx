@@ -27,6 +27,7 @@ import {
 import { Input } from "@/components/ui/input";
 import type { ContestType } from "@/types/contest_type";
 import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const platformGradients: Record<string, string> = {
   LeetCode: "from-[#1A1A1A] via-[#2D2D2D] to-[#FFA116]",
@@ -34,29 +35,65 @@ const platformGradients: Record<string, string> = {
   CodeChef: "from-[#1A1A1A] via-[#2D2D2D] to-[#5C2C06]",
 };
 
-export default function ContestCard({ contest }: { contest: ContestType }) {
+export default function ContestCard({
+  contest,
+  refresh,
+}: {
+  contest: ContestType;
+  refresh?: () => void;
+}) {
   const curr_user = useRecoilValue(user);
   const [open, setOpen] = useState(false);
   const [videoLink, setVideoLink] = useState("");
+  const { pathname } = useLocation();
 
   const handleBookmark = async (e: React.MouseEvent) => {
     e.preventDefault();
+    const backendURL = import.meta.env.DEV
+      ? import.meta.env.VITE_DEV_BACKEND_URL
+      : import.meta.env.VITE_PROD_BACKEND_URL;
     await axios.post(
-      `${import.meta.env.VITE_PROD_BACKEND_URL}/user/bookmarks`,
+      `${backendURL}/user/bookmarks`,
       { contestData: contest },
       { headers: { Authorization: localStorage.getItem("token") } }
     );
     alert(`Bookmarked ${contest.title}`);
   };
 
+  const handleUnBookmark = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    try {
+      const backendURL = import.meta.env.DEV
+        ? import.meta.env.VITE_DEV_BACKEND_URL
+        : import.meta.env.VITE_PROD_BACKEND_URL;
+      await axios.delete(`${backendURL}/user/bookmarks`, {
+        data: { contestId: contest._id },
+        headers: { Authorization: localStorage.getItem("token") },
+      });
+
+      refresh?.();
+    } catch (error) {
+      console.error("Error unbookmarking contest:", error);
+      alert("Failed to unbookmark contest");
+    }
+  };
+
   const handleSaveLink = async () => {
-    await axios.post(
-      `${import.meta.env.VITE_PROD_BACKEND_URL}/contests/upload_solution`,
-      { contestId: contest.id, videoSolution: videoLink },
-      { headers: { Authorization: localStorage.getItem("token") } }
-    );
-    alert("Video Solution Link Saved");
-    setOpen(false);
+    try {
+      const backendURL = import.meta.env.DEV
+        ? import.meta.env.VITE_DEV_BACKEND_URL
+        : import.meta.env.VITE_PROD_BACKEND_URL;
+      await axios.post(
+        `${backendURL}/contests/upload_solution`,
+        { contestId: contest.id, videoSolution: videoLink },
+        { headers: { Authorization: localStorage.getItem("token") } }
+      );
+      alert("Video Solution Link Saved");
+      setOpen(false);
+    } catch (error) {
+      console.error("Error saving video solution link:", error);
+      alert("Failed to save video solution link");
+    }
   };
 
   return (
@@ -163,14 +200,22 @@ export default function ContestCard({ contest }: { contest: ContestType }) {
             {/* Bookmark */}
             {curr_user.email && (
               <Button
-                onClick={handleBookmark}
+                onClick={
+                  pathname != "/my_bookmarks"
+                    ? handleBookmark
+                    : handleUnBookmark
+                }
                 className="px-4 py-2 rounded-full text-sm font-medium
                 bg-[#1F1F1F] border border-[#333] text-gray-200
                 hover:bg-[#2A2A2A] hover:shadow-[0_0_12px_rgba(234,179,8,0.35)]
                 transition-all duration-300 flex items-center gap-2"
               >
                 <Bookmark className="w-4 h-4 text-yellow-400" />
-                <span>Bookmark</span>
+                {pathname != "/my_bookmarks" ? (
+                  <span>Bookmark</span>
+                ) : (
+                  <span>Unbookmark</span>
+                )}
               </Button>
             )}
           </div>

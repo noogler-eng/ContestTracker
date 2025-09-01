@@ -1,4 +1,5 @@
 export interface ContestType {
+  _id?: string;
   id: string;
   title: string;
   type: "Codeforces" | "CodeChef" | "LeetCode";

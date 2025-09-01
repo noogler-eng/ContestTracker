@@ -9,7 +9,7 @@ import { ContestType } from "@/types/contest_type";
 export default function Bookmarks() {
   const [page, setPage] = useState(0);
 
-  const { bookmarks, loading, error }: any = useMyContests({
+  const { bookmarks, refresh, loading, error }: any = useMyContests({
     pageNumber: page,
   });
 
@@ -41,7 +41,7 @@ export default function Bookmarks() {
         ) : Array.isArray(bookmarks) && bookmarks.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {bookmarks.map((contest: ContestType) => (
-              <ContestCard key={contest.id} contest={contest} />
+              <ContestCard key={contest.id} contest={contest} refresh={refresh}/>
             ))}
           </div>
         ) : (
