@@ -54,6 +54,7 @@ function App() {
         resume: currentUser?.resume,
         isAdmin: currentUser?.isadmin,
         bookmarks: currentUser?.bookmarks,
+        loading: false,
       });
     };
     getUser();
@@ -72,10 +73,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/my_bookmarks" element={<Bookmarks />} />
-            <Route
-              path="/contest-solution/:contestId"
-              element={<ContestSolution />}
-            />
+            <Route path="/solution/:contestId" element={<ContestSolution />} />
             <Route path="/practice" element={<Practice />} />
           </Route>
 

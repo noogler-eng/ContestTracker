@@ -5,11 +5,16 @@ import userAtom from "@/store/user_atom";
 export function ProtectedRoute() {
   const user = useRecoilValue(userAtom);
 
-  // if not logged in -> redirect to landing or login page
+  // While user state is initializing
+  if (user.loading) {
+    return <div>Loading...</div>; 
+  }
+
+  // After initialization, if no email -> redirect
   if (!user?.email) {
     return <Navigate to="/" replace />;
   }
 
-  // else render child routes
+  // Otherwise render children
   return <Outlet />;
 }

@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { GoogleLogin } from "@react-oauth/google";
-import { useRecoilValue } from "recoil";
-import { Link } from "react-router-dom";
+import { useRecoilValue, useResetRecoilState, useSetRecoilState } from "recoil";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import Button from "../magicui/Button";
@@ -11,12 +11,15 @@ import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
   const curr_user = useRecoilValue(user);
+  const resetUser = useResetRecoilState(user);
   const [menuOpen, setMenuOpen] = useState(false);
+  const setUser = useSetRecoilState(user);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.reload();
-    window.location.href = "/";
+    resetUser();
+    navigate("/", { replace: true });
   };
 
   const navLinks = [
@@ -24,6 +27,31 @@ export default function Navbar() {
     { to: "/profile", label: "Profile" },
     { to: "/practice", label: "Practice" },
   ];
+
+  const fetchCurrentUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return null;
+
+      const backendURL = import.meta.env.DEV
+        ? import.meta.env.VITE_DEV_BACKEND_URL
+        : import.meta.env.VITE_PROD_BACKEND_URL;
+
+      const response = await axios.get(`${backendURL}/user/profile`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+
+      return response.data.user;
+    } catch (error: any) {
+      console.error(
+        "Error fetching user:",
+        error.response?.data || error.message
+      );
+      return null;
+    }
+  };
 
   return (
     <header className="w-full shadow-md bg-[#0f0f0f] sticky top-0 z-50 text-white">
@@ -58,7 +86,10 @@ export default function Navbar() {
 
               <div className="flex items-center gap-3 pl-4 border-l border-gray-700">
                 <Avatar className="w-10 h-10">
-                  <AvatarImage src={curr_user.picture} alt={curr_user.name} />
+                  <AvatarImage
+                    src={curr_user.picture || ""}
+                    alt={curr_user.name || ""}
+                  />
                   <AvatarFallback>{curr_user.name?.[0]}</AvatarFallback>
                 </Avatar>
                 <div className="text-sm leading-tight">
@@ -84,7 +115,25 @@ export default function Navbar() {
                   { headers: { Authorization: credentialResponse.credential } }
                 );
                 localStorage.setItem("token", credentialResponse.credential!);
-                window.location.reload();
+
+                const getUser = async () => {
+                  const currentUser = await fetchCurrentUser();
+                  setUser({
+                    name: currentUser?.name,
+                    picture: currentUser?.picture,
+                    email: currentUser?.email,
+                    college: currentUser?.college,
+                    rollNo: currentUser?.rollNo,
+                    branch: currentUser?.branch,
+                    resume: currentUser?.resume,
+                    isAdmin: currentUser?.isadmin,
+                    bookmarks: currentUser?.bookmarks,
+                    loading: false,
+                  });
+                };
+                getUser();
+
+                navigate("/", { replace: true });
               }}
               onError={() => console.log("Login Failed")}
             />
@@ -132,7 +181,10 @@ export default function Navbar() {
 
                 <div className="flex items-center gap-3">
                   <Avatar className="w-10 h-10">
-                    <AvatarImage src={curr_user.picture} alt={curr_user.name} />
+                    <AvatarImage
+                      src={curr_user.picture || ""}
+                      alt={curr_user.name || ""}
+                    />
                     <AvatarFallback>{curr_user.name?.[0]}</AvatarFallback>
                   </Avatar>
                   <div className="text-sm">
@@ -161,7 +213,25 @@ export default function Navbar() {
                     }
                   );
                   localStorage.setItem("token", credentialResponse.credential!);
-                  window.location.reload();
+
+                  const getUser = async () => {
+                    const currentUser = await fetchCurrentUser();
+                    setUser({
+                      name: currentUser?.name,
+                      picture: currentUser?.picture,
+                      email: currentUser?.email,
+                      college: currentUser?.college,
+                      rollNo: currentUser?.rollNo,
+                      branch: currentUser?.branch,
+                      resume: currentUser?.resume,
+                      isAdmin: currentUser?.isadmin,
+                      bookmarks: currentUser?.bookmarks,
+                      loading: false,
+                    });
+                  };
+                  getUser();
+
+                  navigate("/", { replace: true });
                 }}
                 onError={() => console.log("Login Failed")}
               />

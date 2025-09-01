@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import type { ContestType } from "@/types/contest_type";
+import { Link } from "react-router-dom";
 
 const platformGradients: Record<string, string> = {
   LeetCode: "from-[#1A1A1A] via-[#2D2D2D] to-[#FFA116]",
@@ -120,13 +121,10 @@ export default function ContestCard({ contest }: { contest: ContestType }) {
                   hover:bg-[#2A2A2A] hover:shadow-[0_0_12px_rgba(34,197,94,0.3)]
                   transition-all duration-300 flex items-center gap-2"
                 >
-                  <a
-                    href={`/contest-solution/${contest.id}`}
-                    rel="noopener noreferrer"
-                  >
+                  <Link to={`/solution/${contest.id}`}>
                     <FileText className="w-4 h-4 text-green-400" />
                     <span>AI Solution</span>
-                  </a>
+                  </Link>
                 </Button>
               )}
 
